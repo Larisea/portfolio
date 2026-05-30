@@ -2,3 +2,6 @@
 nul
 test.html
 .opencode/
+node_modules/
+.next/
+out/

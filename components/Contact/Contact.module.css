@@ -1,0 +1,43 @@
+.section {
+  text-align: center;
+  padding: 8rem 3rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 300;
+  color: var(--color-white);
+  margin-bottom: 1.5rem;
+}
+
+.title strong {
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.pill {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #27272a;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+}
+
+.pill:hover {
+  border-color: var(--color-accent);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}

@@ -14,8 +14,8 @@ export default function ProjectsCarousel() {
     offset: ['start start', 'end start'],
   })
 
-  // Spring configuration for smooth physics
-  const springConfig = { stiffness: 300, damping: 30, bounce: 100 }
+  // Spring configuration - smooth, no bounce
+  const springConfig = { stiffness: 200, damping: 25, bounce: 0 }
 
   // Row 1 - scrolls left
   const x1 = useSpring(
@@ -35,21 +35,10 @@ export default function ProjectsCarousel() {
     springConfig
   )
 
-  // 3D transforms
-  const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [15, 0]),
-    springConfig
-  )
-
-  const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [20, 0]),
-    springConfig
-  )
-
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0.2, 1])
 
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
+    useTransform(scrollYProgress, [0, 0.2], [-200, 200]),
     springConfig
   )
 
@@ -66,31 +55,25 @@ export default function ProjectsCarousel() {
 
         <motion.div
           className={styles.carousel}
-          style={{
-            rotateX,
-            rotateZ,
-            translateY,
-            transformPerspective: 1000,
-            transformStyle: 'preserve-3d',
-          }}
+          style={{ y: translateY }}
         >
           {/* Row 1 - scrolls left */}
           <motion.div className={`${styles.row} ${styles.rowReverse}`} style={{ x: x1 }}>
-            {[...carouselRow1, ...carouselRow1].map((project, i) => (
+            {[...carouselRow1.slice(0, 4), ...carouselRow1.slice(0, 4)].map((project, i) => (
               <ProjectCard key={`r1-${i}`} project={project} />
             ))}
           </motion.div>
 
           {/* Row 2 - scrolls right */}
           <motion.div className={styles.row} style={{ x: x2 }}>
-            {[...carouselRow2, ...carouselRow2].map((project, i) => (
+            {[...carouselRow2.slice(0, 4), ...carouselRow2.slice(0, 4)].map((project, i) => (
               <ProjectCard key={`r2-${i}`} project={project} />
             ))}
           </motion.div>
 
           {/* Row 3 - scrolls left */}
           <motion.div className={`${styles.row} ${styles.rowReverse}`} style={{ x: x3 }}>
-            {[...carouselRow3, ...carouselRow3].map((project, i) => (
+            {[...carouselRow3.slice(0, 4), ...carouselRow3.slice(0, 4)].map((project, i) => (
               <ProjectCard key={`r3-${i}`} project={project} />
             ))}
           </motion.div>

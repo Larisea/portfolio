@@ -30,9 +30,9 @@ export function useLensEffect(radius: number, feather: number) {
 
   const frame = useCallback(() => {
     const s = state.current
-    s.cx = lerp(s.cx, s.mx, 0.2)
-    s.cy = lerp(s.cy, s.my, 0.2)
-    s.cr = lerp(s.cr, s.tr, 0.16)
+    s.cx = lerp(s.cx, s.mx, 0.25)
+    s.cy = lerp(s.cy, s.my, 0.25)
+    s.cr = lerp(s.cr, s.tr, 0.2)
 
     const r = Math.max(0, s.cr)
     const inner = Math.max(0, r - feather)

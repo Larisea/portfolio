@@ -15,6 +15,8 @@
   gap: 0;
   opacity: 0.08;
   z-index: 1;
+  will-change: transform;
+  contain: layout style paint;
 }
 
 .prow {
@@ -59,6 +61,7 @@
   justify-content: center;
   z-index: 2;
   pointer-events: none;
+  will-change: mask-image, -webkit-mask-image;
 }
 
 .layerEn .title {
@@ -91,6 +94,7 @@
   justify-content: center;
   z-index: 3;
   pointer-events: none;
+  will-change: mask-image, -webkit-mask-image;
   -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, transparent 0%, transparent 100%);
   mask-image: radial-gradient(circle 0px at 50% 50%, transparent 0%, transparent 100%);
 }

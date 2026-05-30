@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { heroConfig } from '@/config/hero'
 import { useLensEffect } from './useLensEffect'
 import styles from './Hero.module.css'
@@ -8,6 +8,15 @@ import styles from './Hero.module.css'
 export default function Hero() {
   const { layerEnRef, layerCnRef, circleDecoRef, onMouseEnter, onMouseLeave, onMouseMove } =
     useLensEffect(heroConfig.radius, heroConfig.feather)
+
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.matchMedia('(hover: none)').matches)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   // Generate pattern rows once
   const patternRows = useMemo(() => {
@@ -64,15 +73,17 @@ export default function Hero() {
       {/* Circle decoration */}
       <div className={styles.circleDeco} ref={circleDecoRef} />
 
-      {/* Interactive zone */}
-      <div
-        className={styles.zone}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onMouseMove={onMouseMove}
-      />
+      {/* Interactive zone - only on desktop */}
+      {!isMobile && (
+        <div
+          className={styles.zone}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseMove={onMouseMove}
+        />
+      )}
 
-      <div className={styles.hint}>移动鼠标探索</div>
+      {!isMobile && <div className={styles.hint}>移动鼠标探索</div>}
     </section>
   )
 }

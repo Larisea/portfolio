@@ -10,6 +10,8 @@ interface LensState {
   tr: number
   inside: boolean
   raf: number | null
+  autoRaf: number | null
+  autoTime: number
 }
 
 export function useLensEffect(radius: number, feather: number) {
@@ -22,12 +24,15 @@ export function useLensEffect(radius: number, feather: number) {
     tr: 0,
     inside: false,
     raf: null,
+    autoRaf: null,
+    autoTime: 0,
   })
 
   const layerEnRef = useRef<HTMLDivElement>(null)
   const layerCnRef = useRef<HTMLDivElement>(null)
   const circleDecoRef = useRef<HTMLDivElement>(null)
 
+  // Main animation frame - updates masks and circle position
   const frame = useCallback(() => {
     const s = state.current
     s.cx = lerp(s.cx, s.mx, 0.25)
@@ -77,11 +82,51 @@ export function useLensEffect(radius: number, feather: number) {
     }
   }, [feather])
 
+  // Auto-float animation frame
+  const autoFrame = useCallback(() => {
+    const s = state.current
+    if (!s.inside) {
+      s.autoTime += 0.008
+      const w = typeof window !== 'undefined' ? window.innerWidth : 1200
+      const h = typeof window !== 'undefined' ? window.innerHeight : 800
+      s.mx = w / 2 + Math.sin(s.autoTime) * w * 0.15
+      s.my = h / 2 + Math.cos(s.autoTime * 0.7) * h * 0.1
+      s.tr = radius
+      if (!s.raf) {
+        s.raf = requestAnimationFrame(frame)
+      }
+    }
+    s.autoRaf = requestAnimationFrame(autoFrame)
+  }, [frame, radius])
+
   const tick = useCallback(() => {
     if (!state.current.raf) {
       state.current.raf = requestAnimationFrame(frame)
     }
   }, [frame])
+
+  // Start auto-float on mount
+  useEffect(() => {
+    // Set initial position to screen center
+    const w = typeof window !== 'undefined' ? window.innerWidth / 2 : 600
+    const h = typeof window !== 'undefined' ? window.innerHeight / 2 : 400
+    state.current.mx = w
+    state.current.my = h
+    state.current.cx = w
+    state.current.cy = h
+    state.current.tr = radius
+
+    // Start the loop
+    tick()
+
+    // Start auto-float
+    state.current.autoRaf = requestAnimationFrame(autoFrame)
+
+    return () => {
+      if (state.current.raf) cancelAnimationFrame(state.current.raf)
+      if (state.current.autoRaf) cancelAnimationFrame(state.current.autoRaf)
+    }
+  }, [autoFrame, radius, tick])
 
   const onMouseEnter = useCallback(() => {
     state.current.inside = true
@@ -92,10 +137,9 @@ export function useLensEffect(radius: number, feather: number) {
 
   const onMouseLeave = useCallback(() => {
     state.current.inside = false
-    state.current.tr = 0
-    circleDecoRef.current?.classList.remove('visible')
+    state.current.tr = radius
     tick()
-  }, [tick])
+  }, [radius, tick])
 
   const onMouseMove = useCallback(
     (e: React.MouseEvent) => {
@@ -105,15 +149,6 @@ export function useLensEffect(radius: number, feather: number) {
     },
     [tick]
   )
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (state.current.raf) {
-        cancelAnimationFrame(state.current.raf)
-      }
-    }
-  }, [])
 
   return {
     layerEnRef,

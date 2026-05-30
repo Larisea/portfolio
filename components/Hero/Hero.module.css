@@ -130,16 +130,15 @@
   border: 2px solid rgba(255, 255, 255, 0.15);
   pointer-events: none;
   z-index: 100;
-  transform: translate(-50%, -50%) scale(0);
-  box-shadow: none;
+  transform: translate(-50%, -50%) scale(1);
+  box-shadow: 0 0 60px 6px rgba(167, 139, 250, 0.25),
+              inset 0 0 50px 4px rgba(167, 139, 250, 0.08);
   background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease,
+  transition: border-color 0.3s ease,
               box-shadow 0.3s ease;
 }
 
 .circleDeco.visible {
-  transform: translate(-50%, -50%) scale(1);
   border-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 60px 6px rgba(167, 139, 250, 0.25),
               inset 0 0 50px 4px rgba(167, 139, 250, 0.08);
@@ -168,4 +167,26 @@
 @keyframes pulse {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .circleDeco {
+    width: 200px;
+    height: 200px;
+  }
+
+  .layerEn h1 {
+    font-size: clamp(2rem, 8vw, 4rem);
+  }
+
+  .layerCn h2 {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+  }
+}
+
+@media (hover: none) {
+  .zone {
+    display: none;
+  }
 }

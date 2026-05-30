@@ -1,19 +1,21 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, MotionValue } from 'framer-motion'
 import { Project } from '@/config/projects'
 import styles from './ProjectCard.module.css'
 
 interface ProjectCardProps {
   project: Project
+  opacity?: MotionValue<number>
+  y?: MotionValue<number>
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({ project, opacity, y }: ProjectCardProps) {
   return (
     <motion.div
       className={styles.card}
-      whileHover={{ y: -20 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      style={{ opacity, y }}
+      whileHover={{ y: -10, transition: { duration: 0.3 } }}
     >
       <div className={styles.imageWrapper}>
         <img

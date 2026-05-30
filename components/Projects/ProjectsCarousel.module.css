@@ -1,5 +1,5 @@
 .section {
-  height: 300vh;
+  height: 180vh;
   position: relative;
 }
 
@@ -12,8 +12,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  perspective: 1000px;
-  transform-style: preserve-3d;
 }
 
 .header {
@@ -41,16 +39,12 @@
 .carousel {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .row {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   flex-wrap: nowrap;
-  will-change: transform;
-}
-
-.rowReverse {
-  flex-direction: row-reverse;
+  justify-content: center;
 }

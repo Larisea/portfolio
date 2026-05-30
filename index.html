@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shome - Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    background: #0a0a0f;
+    color: #e0e0e8;
+    overflow-x: hidden;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 1.25rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #fafafa;
+    letter-spacing: 0.1em;
+  }
+
+  .nav .links { display: flex; gap: 2rem; list-style: none; }
+
+  .nav .links a {
+    color: #52525b;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
+  }
+
+  .nav .links a:hover { color: #fafafa; }
+
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #0a0a0f;
+  }
+
+  #heroBg {
+    position: absolute;
+    inset: -40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    opacity: 0.08;
+    z-index: 1;
+  }
+
+  .layer-en {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .layer-en .title { text-align: center; }
+
+  .layer-en h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .layer-en .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #52525b;
+    letter-spacing: 0.15em;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  .layer-cn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+    /* hidden by default */
+    -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, transparent 0%, transparent 100%);
+    mask-image: radial-gradient(circle 0px at 50% 50%, transparent 0%, transparent 100%);
+  }
+
+  .layer-cn .title { text-align: center; }
+
+  .layer-cn h2 {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+  }
+
+  .layer-cn .about {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #a78bfa;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+    display: block;
+  }
+
+  #circleDeco {
+    position: fixed;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    pointer-events: none;
+    z-index: 100;
+    transform: translate(-50%, -50%) scale(0);
+    box-shadow: 0 0 60px 6px rgba(167, 139, 250, 0.25),
+                inset 0 0 50px 4px rgba(167, 139, 250, 0.08);
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    border-color: rgba(255, 255, 255, 0);
+    box-shadow: none;
+  }
+
+  #circleDeco.visible {
+    transform: translate(-50%, -50%) scale(1);
+    border-color: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 60px 6px rgba(167, 139, 250, 0.25),
+                inset 0 0 50px 4px rgba(167, 139, 250, 0.08);
+  }
+
+  .prow {
+    display: flex;
+    white-space: nowrap;
+    gap: 1.5rem;
+  }
+
+  .prow:nth-child(odd) { animation: ml 80s linear infinite; }
+  .prow:nth-child(even) { animation: mr 75s linear infinite; }
+
+  @keyframes ml { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes mr { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  .pt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.8rem, 1.5vw, 1.4rem);
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    color: #fff;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .zone {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: none;
+  }
+
+  #hint {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #3f3f46;
+    letter-spacing: 0.1em;
+    animation: pulse 2s ease-in-out infinite;
+    transition: opacity 0.4s ease;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  .section {
+    padding: 6rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #3f3f46;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #18181b;
+  }
+
+  .project-list { border-top: 1px solid #18181b; }
+
+  .project-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #18181b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .project-row:hover {
+    padding-left: 1rem;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .project-row .index {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #3f3f46;
+  }
+
+  .project-row .info h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #fafafa;
+    margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
+  }
+
+  .project-row:hover .info h3 { color: #a78bfa; }
+
+  .project-row .info p { font-size: 0.85rem; color: #52525b; }
+
+  .project-row .arrow {
+    font-size: 1.2rem;
+    color: #3f3f46;
+    transition: all 0.3s ease;
+  }
+
+  .project-row:hover .arrow {
+    color: #a78bfa;
+    transform: translateX(8px);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: #18181b;
+    border: 1px solid #18181b;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 2rem;
+  }
+
+  .skill-cell {
+    background: #09090b;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .skill-cell:hover { background: #18181b; }
+  .skill-cell .icon { font-size: 1.5rem; margin-bottom: 0.75rem; opacity: 0.6; }
+  .skill-cell h4 { font-size: 0.85rem; font-weight: 500; color: #a1a1aa; }
+  .skill-cell p { font-size: 0.7rem; color: #3f3f46; margin-top: 0.25rem; }
+
+  .contact-section {
+    text-align: center;
+    padding: 8rem 3rem;
+    border-top: 1px solid #18181b;
+  }
+
+  .contact-section h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    color: #fafafa;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-section h2 strong {
+    font-weight: 600;
+    background: linear-gradient(135deg, #a78bfa, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .contact-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: #52525b;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #27272a;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+  }
+
+  .contact-links a:hover {
+    border-color: #a78bfa;
+    color: #fafafa;
+    transform: translateY(-2px);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.75rem;
+    color: #27272a;
+    border-top: 1px solid #18181b;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">SHOME</div>
+  <ul class="links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="hero">
+  <div id="heroBg"></div>
+
+  <div class="layer-en" id="layerEn">
+    <div class="title">
+      <h1>HELLO, I'M<br>Shome</h1>
+      <div class="sub">Design · Creative · Portfolio</div>
+    </div>
+  </div>
+
+  <div class="layer-cn" id="layerCn">
+    <div class="title">
+      <h2>你好，我是<br>Shome</h2>
+      <span class="about">About Me</span>
+    </div>
+  </div>
+
+  <div id="circleDeco"></div>
+  <div class="zone" id="zone"></div>
+  <div id="hint">移动鼠标探索</div>
+</section>
+
+<section class="section" id="work">
+  <div class="section-label">Selected Work</div>
+  <div class="project-list">
+    <div class="project-row">
+      <div class="index">01</div>
+      <div class="info"><h3>Brand Identity System</h3><p>Complete visual identity for a tech startup</p></div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="index">02</div>
+      <div class="info"><h3>Mobile App Design</h3><p>Health tracking app with intuitive interface</p></div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="index">03</div>
+      <div class="info"><h3>Web Platform Redesign</h3><p>E-commerce platform redesign improving conversion</p></div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="index">04</div>
+      <div class="info"><h3>Design System</h3><p>Scalable component library for SaaS platform</p></div>
+      <div class="arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <div class="section-label">Expertise</div>
+  <div class="skills-grid">
+    <div class="skill-cell"><div class="icon">✏️</div><h4>UI Design</h4><p>Figma, Sketch</p></div>
+    <div class="skill-cell"><div class="icon">🎬</div><h4>Motion</h4><p>After Effects</p></div>
+    <div class="skill-cell"><div class="icon">💻</div><h4>Frontend</h4><p>React, CSS</p></div>
+    <div class="skill-cell"><div class="icon">🧠</div><h4>UX Research</h4><p>Usability</p></div>
+    <div class="skill-cell"><div class="icon">📦</div><h4>3D</h4><p>Blender</p></div>
+    <div class="skill-cell"><div class="icon">🎯</div><h4>Prototype</h4><p>Framer</p></div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <h2>Let's create something <strong>beautiful</strong></h2>
+  <div class="contact-links">
+    <a href="mailto:hello@example.com">Email</a>
+    <a href="#">Dribbble</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">GitHub</a>
+  </div>
+</section>
+
+<div class="footer">© 2026 Shome. All Rights Reserved.</div>
+
+<script>
+  // Generate pattern
+  (function() {
+    var el = document.getElementById('heroBg');
+    for (var i = 0; i < 14; i++) {
+      var row = document.createElement('div');
+      row.className = 'prow';
+      for (var j = 0; j < 50; j++) {
+        var s = document.createElement('span');
+        s.className = 'pt';
+        s.textContent = 'S H O M E';
+        row.appendChild(s);
+      }
+      el.appendChild(row);
+    }
+  })();
+
+  // === Perspective lens effect ===
+  var layerEn = document.getElementById('layerEn');
+  var layerCn = document.getElementById('layerCn');
+  var circleDeco = document.getElementById('circleDeco');
+  var zone = document.getElementById('zone');
+  var hint = document.getElementById('hint');
+
+  var mx = -500, my = -500;
+  var cx = -500, cy = -500;
+  var cr = 0, tr = 0;
+  var inside = false;
+  var raf = null;
+
+  var RADIUS = 150;
+  var FEATHER = 30;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function frame() {
+    cx = lerp(cx, mx, 0.2);
+    cy = lerp(cy, my, 0.2);
+    cr = lerp(cr, tr, 0.16);
+
+    // English mask: hide inside circle, show outside
+    // transparent 0% → transparent (R-FEATHER) → black R
+    var enR = Math.max(0, cr);
+    var enInner = Math.max(0, enR - FEATHER);
+    layerEn.style.maskImage =
+      'radial-gradient(circle ' + enR + 'px at ' + cx + 'px ' + cy + 'px, ' +
+      'transparent 0%, transparent ' + enInner + 'px, black ' + enR + 'px)';
+
+    // Chinese mask: show inside circle, hide outside
+    // black 0% → black (R-FEATHER) → transparent R
+    var cnInner = Math.max(0, enR - FEATHER);
+    layerCn.style.maskImage =
+      'radial-gradient(circle ' + enR + 'px at ' + cx + 'px ' + cy + 'px, ' +
+      'black 0%, black ' + cnInner + 'px, transparent ' + enR + 'px)';
+
+    // Circle decoration follows mouse directly
+    circleDeco.style.left = mx + 'px';
+    circleDeco.style.top = my + 'px';
+
+    var done = Math.abs(cr - tr) < 0.5;
+    if (!done) {
+      raf = requestAnimationFrame(frame);
+    } else {
+      cr = tr;
+      // Snap masks
+      if (cr < 1) {
+        layerEn.style.maskImage = 'none';
+        layerCn.style.maskImage = 'radial-gradient(circle 0px at 50% 50%, transparent 0%, transparent 100%)';
+      } else {
+        var er = cr, ei = Math.max(0, cr - FEATHER);
+        layerEn.style.maskImage =
+          'radial-gradient(circle ' + er + 'px at ' + cx + 'px ' + cy + 'px, transparent 0%, transparent ' + ei + 'px, black ' + er + 'px)';
+        layerCn.style.maskImage =
+          'radial-gradient(circle ' + er + 'px at ' + cx + 'px ' + cy + 'px, black 0%, black ' + ei + 'px, transparent ' + er + 'px)';
+      }
+      raf = null;
+    }
+  }
+
+  function tick() {
+    if (!raf) raf = requestAnimationFrame(frame);
+  }
+
+  zone.addEventListener('mouseenter', function() {
+    inside = true;
+    tr = RADIUS;
+    circleDeco.classList.add('visible');
+    hint.style.opacity = '0';
+    tick();
+  });
+
+  zone.addEventListener('mouseleave', function() {
+    inside = false;
+    tr = 0;
+    circleDeco.classList.remove('visible');
+    hint.style.opacity = '';
+    tick();
+  });
+
+  zone.addEventListener('mousemove', function(e) {
+    mx = e.clientX;
+    my = e.clientY;
+    tick();
+  });
+</script>
+
+</body>
+</html>

@@ -4,7 +4,7 @@ export const heroConfig = {
     subtitle: "Design · Creative · Portfolio",
   },
   cn: {
-    title: "你好，我是\nShome",
+    title: "你好，我是\n赖日海",
     subtitle: "About Me",
   },
   patternText: "S H O M E",

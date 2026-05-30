@@ -1,0 +1,56 @@
+.section {
+  height: 300vh;
+  position: relative;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  z-index: 10;
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transform-style: preserve-3d;
+}
+
+.row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: nowrap;
+}
+
+.rowReverse {
+  flex-direction: row-reverse;
+}

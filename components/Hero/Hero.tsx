@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useEffect, useState } from 'react'
+import { useMemo, useEffect, useState, useRef } from 'react'
 import { heroConfig } from '@/config/hero'
 import { useLensEffect } from './useLensEffect'
 import styles from './Hero.module.css'
@@ -10,12 +10,26 @@ export default function Hero() {
     useLensEffect(heroConfig.radius, heroConfig.feather)
 
   const [isMobile, setIsMobile] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+  const [heroVisible, setHeroVisible] = useState(true)
 
   useEffect(() => {
     const check = () => setIsMobile(window.matchMedia('(hover: none)').matches)
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Hide circle when hero scrolls out of view
+  useEffect(() => {
+    const el = heroRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [])
 
   // Generate pattern rows once
@@ -40,7 +54,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} ref={heroRef}>
       {/* Background pattern - always visible */}
       <div className={styles.heroBg}>{patternRows}</div>
 
@@ -70,8 +84,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Circle decoration */}
-      <div className={styles.circleDeco} ref={circleDecoRef} />
+      {/* Circle decoration - hidden when hero scrolls out */}
+      {heroVisible && <div className={styles.circleDeco} ref={circleDecoRef} />}
 
       {/* Interactive zone - only on desktop */}
       {!isMobile && (

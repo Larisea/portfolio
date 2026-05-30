@@ -24,12 +24,13 @@ export default function Hero() {
   useEffect(() => {
     const el = heroRef.current
     if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setHeroVisible(entry.isIntersecting),
-      { threshold: 0.1 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect()
+      setHeroVisible(rect.bottom > 0)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   // Generate pattern rows once

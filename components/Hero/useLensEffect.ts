@@ -32,7 +32,7 @@ export function useLensEffect(radius: number, feather: number) {
   const layerCnRef = useRef<HTMLDivElement>(null)
   const circleDecoRef = useRef<HTMLDivElement>(null)
 
-  // Main animation frame - updates masks and circle position
+  // Main animation frame - always runs while active
   const frame = useCallback(() => {
     const s = state.current
     s.cx = lerp(s.cx, s.mx, 0.25)
@@ -67,22 +67,17 @@ export function useLensEffect(radius: number, feather: number) {
       }
     }
 
-    // Circle decoration
+    // Circle decoration - use lerped position for smoothness
     if (circleDecoRef.current) {
-      circleDecoRef.current.style.left = s.mx + 'px'
-      circleDecoRef.current.style.top = s.my + 'px'
+      circleDecoRef.current.style.left = s.cx + 'px'
+      circleDecoRef.current.style.top = s.cy + 'px'
     }
 
-    const done = Math.abs(s.cr - s.tr) < 0.5
-    if (!done) {
-      s.raf = requestAnimationFrame(frame)
-    } else {
-      s.cr = s.tr
-      s.raf = null
-    }
+    // Always continue - auto-float or mouse tracking needs continuous updates
+    s.raf = requestAnimationFrame(frame)
   }, [feather])
 
-  // Auto-float animation frame
+  // Auto-float animation - updates target position
   const autoFrame = useCallback(() => {
     const s = state.current
     if (!s.inside) {
@@ -92,22 +87,12 @@ export function useLensEffect(radius: number, feather: number) {
       s.mx = w / 2 + Math.sin(s.autoTime) * w * 0.15
       s.my = h / 2 + Math.cos(s.autoTime * 0.7) * h * 0.1
       s.tr = radius
-      if (!s.raf) {
-        s.raf = requestAnimationFrame(frame)
-      }
     }
     s.autoRaf = requestAnimationFrame(autoFrame)
-  }, [frame, radius])
+  }, [radius])
 
-  const tick = useCallback(() => {
-    if (!state.current.raf) {
-      state.current.raf = requestAnimationFrame(frame)
-    }
-  }, [frame])
-
-  // Start auto-float on mount
+  // Start animation loops on mount
   useEffect(() => {
-    // Set initial position to screen center
     const w = typeof window !== 'undefined' ? window.innerWidth / 2 : 600
     const h = typeof window !== 'undefined' ? window.innerHeight / 2 : 400
     state.current.mx = w
@@ -116,38 +101,34 @@ export function useLensEffect(radius: number, feather: number) {
     state.current.cy = h
     state.current.tr = radius
 
-    // Start the loop
-    tick()
-
-    // Start auto-float
+    // Start both loops
+    state.current.raf = requestAnimationFrame(frame)
     state.current.autoRaf = requestAnimationFrame(autoFrame)
 
     return () => {
       if (state.current.raf) cancelAnimationFrame(state.current.raf)
       if (state.current.autoRaf) cancelAnimationFrame(state.current.autoRaf)
     }
-  }, [autoFrame, radius, tick])
+  }, [autoFrame, frame, radius])
 
   const onMouseEnter = useCallback(() => {
     state.current.inside = true
     state.current.tr = radius
     circleDecoRef.current?.classList.add('visible')
-    tick()
-  }, [radius, tick])
+  }, [radius])
 
   const onMouseLeave = useCallback(() => {
     state.current.inside = false
     state.current.tr = radius
-    tick()
-  }, [radius, tick])
+    circleDecoRef.current?.classList.remove('visible')
+  }, [])
 
   const onMouseMove = useCallback(
     (e: React.MouseEvent) => {
       state.current.mx = e.clientX
       state.current.my = e.clientY
-      tick()
     },
-    [tick]
+    []
   )
 
   return {

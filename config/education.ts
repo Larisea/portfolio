@@ -9,23 +9,16 @@ export interface Education {
 export const education: Education[] = [
   {
     id: "1",
-    date: "2020 - 2024",
-    school: "University of Arts London",
-    degree: "Bachelor of Design (Hons)",
-    description: "Studied visual communication, interactive media, and design thinking. Graduated with First Class Honours. Final year project explored the intersection of AI and generative design.",
+    date: "2022 - 2025",
+    school: "河南大学",
+    degree: "人工智能 · 硕士研究生",
+    description: "研究方向为计算机视觉与深度学习，参与多项国家级科研项目。在读期间发表SCI论文2篇，熟练掌握PyTorch、TensorFlow等深度学习框架，具备扎实的机器学习理论基础和工程实践能力。",
   },
   {
     id: "2",
-    date: "2022",
-    school: "Google UX Design Certificate",
-    degree: "Professional Certificate",
-    description: "Completed Google's UX Design Professional Certificate program, mastering user research, wireframing, prototyping, and usability testing methodologies.",
-  },
-  {
-    id: "3",
-    date: "2021",
-    school: "Coursera - Interactive Design",
-    degree: "Specialization",
-    description: "Completed a 3-course specialization covering motion design, micro-interactions, and advanced CSS animations for web interfaces.",
+    date: "2018 - 2022",
+    school: "河北地质大学",
+    degree: "软件工程 · 本科",
+    description: "系统学习软件开发全流程，涵盖数据结构、算法设计、数据库原理、Web开发等核心课程。在校期间多次获得奖学金，积极参与编程竞赛和开源项目，培养了扎实的编程能力和团队协作精神。",
   },
 ]

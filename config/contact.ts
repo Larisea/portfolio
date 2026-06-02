@@ -1,6 +1,12 @@
 export const contact = {
-  title: "Let's create something",
-  highlight: "beautiful",
+  en: {
+    title: "Let's create something",
+    highlight: "beautiful",
+  },
+  cn: {
+    title: "一起创造",
+    highlight: "美好",
+  },
   links: [
     { label: "Email", href: "mailto:hello@example.com" },
     { label: "Dribbble", href: "#" },

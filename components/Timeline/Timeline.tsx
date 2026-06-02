@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { useLanguage } from '@/lib/LanguageContext'
 import styles from './Timeline.module.css'
 
 export interface TimelineItem {
@@ -17,6 +18,11 @@ export interface TimelineItem {
 interface TimelineProps {
   items: TimelineItem[]
   sectionId?: string
+}
+
+const sectionTitles = {
+  en: 'Selected Work',
+  cn: '精选作品',
 }
 
 function TimelineNode({ item, index }: { item: TimelineItem; index: number }) {
@@ -69,6 +75,7 @@ function TimelineNode({ item, index }: { item: TimelineItem; index: number }) {
 }
 
 export default function Timeline({ items, sectionId }: TimelineProps) {
+  const { language } = useLanguage()
   const headerRef = useRef<HTMLDivElement>(null)
   const headerInView = useInView(headerRef, { once: true, margin: '-50px' })
 
@@ -81,7 +88,7 @@ export default function Timeline({ items, sectionId }: TimelineProps) {
         animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h2 className={styles.sectionTitle}>Selected Work</h2>
+        <h2 className={styles.sectionTitle}>{sectionTitles[language]}</h2>
         <div className={styles.line} />
       </motion.div>
 

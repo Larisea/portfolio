@@ -12,8 +12,8 @@ export const heroConfig = {
   patternText: "S H O M E",
   patternRows: 14,
   patternCols: 50,
-  radius: 150,
-  mobileRadius: 80,
-  feather: 30,
-  mobileFeather: 20,
+  radius: 125,
+  mobileRadius: 75,
+  feather: 25,
+  mobileFeather: 18,
 }

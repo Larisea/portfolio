@@ -81,11 +81,14 @@ export function useLensEffect(radius: number, feather: number) {
   const autoFrame = useCallback(() => {
     const s = state.current
     if (!s.inside) {
-      s.autoTime += 0.008
+      s.autoTime += 0.006
       const w = typeof window !== 'undefined' ? window.innerWidth : 1200
       const h = typeof window !== 'undefined' ? window.innerHeight : 800
-      s.mx = w / 2 + Math.sin(s.autoTime) * w * 0.15
-      s.my = h / 2 + Math.cos(s.autoTime * 0.7) * h * 0.1
+      const isMobile = w <= 768
+      const rangeX = isMobile ? 0.08 : 0.12
+      const rangeY = isMobile ? 0.06 : 0.08
+      s.mx = w / 2 + Math.sin(s.autoTime) * w * rangeX
+      s.my = h / 2 + Math.cos(s.autoTime * 0.7) * h * rangeY
       s.tr = radius
     }
     s.autoRaf = requestAnimationFrame(autoFrame)

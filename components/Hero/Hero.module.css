@@ -45,7 +45,7 @@
 
 .pt {
   font-family: var(--font-mono);
-  font-size: clamp(0.8rem, 1.5vw, 1.4rem);
+  font-size: clamp(0.7rem, 1.2vw, 1rem);
   font-weight: 500;
   letter-spacing: 0.35em;
   color: #fff;
@@ -66,12 +66,12 @@
 
 .layerEn .title {
   text-align: center;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 .layerEn h1 {
   font-family: var(--font-sans);
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
   font-weight: 700;
   color: var(--color-white);
   letter-spacing: -0.03em;
@@ -80,10 +80,10 @@
 
 .sub {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--color-text-muted);
   letter-spacing: 0.15em;
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   text-transform: uppercase;
 }
 
@@ -102,12 +102,12 @@
 
 .layerCn .title {
   text-align: center;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 .layerCn h2 {
   font-family: 'Noto Sans SC', sans-serif;
-  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-size: clamp(2rem, 4.5vw, 4rem);
   font-weight: 700;
   color: var(--color-white);
   letter-spacing: 0.05em;
@@ -116,34 +116,34 @@
 
 .about {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--color-accent);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   display: block;
 }
 
 .circleDeco {
   position: fixed;
-  width: 280px;
-  height: 280px;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
   pointer-events: none;
   z-index: 100;
   transform: translate(-50%, -50%) scale(1);
-  box-shadow: 0 0 60px 6px rgba(167, 139, 250, 0.25),
-              inset 0 0 50px 4px rgba(167, 139, 250, 0.08);
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  box-shadow: 0 0 50px 5px rgba(167, 139, 250, 0.2),
+              inset 0 0 40px 3px rgba(167, 139, 250, 0.06);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
   transition: border-color 0.3s ease,
               box-shadow 0.3s ease;
 }
 
 .circleDeco.visible {
-  border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 60px 6px rgba(167, 139, 250, 0.25),
-              inset 0 0 50px 4px rgba(167, 139, 250, 0.08);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 50px 5px rgba(167, 139, 250, 0.25),
+              inset 0 0 40px 3px rgba(167, 139, 250, 0.08);
 }
 
 .zone {
@@ -155,67 +155,15 @@
 
 .hint {
   position: absolute;
-  bottom: 3rem;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--color-text-dim);
   letter-spacing: 0.1em;
   animation: pulse 2s ease-in-out infinite;
-}
-
-.mobileHint {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--color-text-dim);
-  letter-spacing: 0.1em;
-  animation: pulse 2s ease-in-out infinite;
-  white-space: nowrap;
-}
-
-.mobileContent {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  width: 100%;
-}
-
-.mobileTitle {
-  text-align: center;
-}
-
-.mobileTitle h1 {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-white);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
-
-.mobileTitle h2 {
-  font-family: 'Noto Sans SC', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--color-white);
-  letter-spacing: 0.03em;
-  line-height: 1.2;
-}
-
-.mobileDivider {
-  width: 40px;
-  height: 1px;
-  background: var(--color-border);
 }
 
 @keyframes pulse {
@@ -226,140 +174,81 @@
 /* Tablet */
 @media (max-width: 1024px) {
   .layerEn h1 {
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(2rem, 4vw, 3.5rem);
   }
 
   .layerCn h2 {
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
   }
 
   .circleDeco {
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .hero {
-    height: auto;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 20px 60px;
-  }
-
   .heroBg {
-    opacity: 0.04;
-    animation: none;
+    opacity: 0.05;
   }
 
   .prow {
-    gap: 0.8rem;
-    animation: none !important;
+    gap: 1rem;
   }
 
   .pt {
-    font-size: 0.55rem;
-    letter-spacing: 0.15em;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
   }
 
-  .layerEn,
-  .layerCn {
-    display: none;
+  .layerEn h1 {
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
   }
 
-  .circleDeco {
-    display: none;
-  }
-
-  .hint {
-    display: none;
-  }
-
-  .zone {
-    display: none;
-  }
-
-  .mobileContent {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    width: 100%;
-  }
-
-  .mobileTitle {
-    text-align: center;
-  }
-
-  .mobileTitle h1 {
-    font-family: var(--font-sans);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-white);
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-  }
-
-  .mobileTitle h2 {
-    font-family: 'Noto Sans SC', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--color-white);
-    letter-spacing: 0.03em;
-    line-height: 1.2;
+  .layerCn h2 {
+    font-size: clamp(1.6rem, 7vw, 2.5rem);
   }
 
   .sub {
-    font-size: 0.55rem;
-    margin-top: 0.75rem;
-    letter-spacing: 0.1em;
-  }
-
-  .about {
-    font-size: 0.5rem;
-    margin-top: 0.75rem;
+    font-size: 0.6rem;
+    margin-top: 1rem;
     letter-spacing: 0.12em;
   }
 
-  .mobileDivider {
-    width: 40px;
-    height: 1px;
-    background: var(--color-border);
+  .about {
+    font-size: 0.55rem;
+    margin-top: 1rem;
+    letter-spacing: 0.15em;
   }
 
-  .mobileHint {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    margin-top: 2rem;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: var(--color-text-dim);
-    letter-spacing: 0.1em;
-    animation: pulse 2s ease-in-out infinite;
-    white-space: nowrap;
+  .circleDeco {
+    width: 150px;
+    height: 150px;
+    border-width: 1px;
+    box-shadow: 0 0 30px 3px rgba(167, 139, 250, 0.15),
+                inset 0 0 20px 2px rgba(167, 139, 250, 0.05);
+  }
+
+  .hint {
+    bottom: 2rem;
+    font-size: 0.55rem;
   }
 }
 
 /* Small mobile */
 @media (max-width: 380px) {
-  .hero {
-    padding: 70px 16px 50px;
+  .layerEn h1 {
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
   }
 
-  .mobileTitle h1 {
-    font-size: 1.65rem;
+  .layerCn h2 {
+    font-size: clamp(1.3rem, 6vw, 2rem);
   }
 
-  .mobileTitle h2 {
-    font-size: 1.5rem;
+  .circleDeco {
+    width: 120px;
+    height: 120px;
   }
 }
 
